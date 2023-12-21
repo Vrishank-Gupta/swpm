@@ -8,6 +8,8 @@ import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'constants.dart' as Constants;
 import 'package:path_provider/path_provider.dart' as path_provider;
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -139,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           // Background Image
           Image.asset(
-            'assets/lesion.jpg',
+            'assets/background_image.jpg',
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
@@ -196,6 +198,38 @@ class _MyHomePageState extends State<MyHomePage> {
                           onPressed: generateAndDownloadPDF,
                           child: Text('Download PDF'),
                         ),
+                        // Star Rating System
+                        SizedBox(height: 16),
+                        Text('Rate the story:'),
+                        RatingBar.builder(
+                          initialRating: 4,
+                          minRating: 1,
+                          direction: Axis.horizontal,
+                          allowHalfRating: true,
+                          itemCount: 5,
+                          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                          itemBuilder: (context, _) => Icon(
+                            Icons.star,
+                            color: Colors.amber,
+                          ),
+                          onRatingUpdate: (rating) {
+                            print(rating);
+                          },),
+                        TextField(
+                          decoration: InputDecoration(labelText: 'Enter your feedback',
+                            filled: false, //<-- SEE HERE
+                            fillColor: Colors.white,
+                          ),
+                        ),
+                        SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: () {
+                            String userPrompt = promptController.text;
+                            fetchData(userPrompt);
+                          },
+                          child: Text('Submit Feedback'),
+                        ),
+
                       ],
                     ),
                   ),
